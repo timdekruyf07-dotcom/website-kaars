@@ -184,62 +184,78 @@
     <script async src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"></script>
     <div hidden id="snipcart" data-api-key="NDdkMmZjYjAtYTI2NS00NDQ0LWFjYjgtMWNlMmVhNzgzZTMzNjM5MjQwNDE5ODk1NTAxNjE2"></div>
 
-    <!-- Script om producten in te laden -->
+   <!-- Script om automatisch alle producten in te laden -->
     <script>
         async function loadProducts() {
             const productContainer = document.getElementById('product-list');
+            const repo = "timdekruyf07-dotcom/website-kaarsen"; 
             
-            // We proberen de bekende bestanden direct in te laden die door Decap CMS worden aangemaakt
-            const knownFiles = [
-                'content/producten/theedoek.md' 
-            ];
+            productContainer.innerHTML = "<p style='color: #7a706b;'>Producten worden geladen...</p>";
 
-            productContainer.innerHTML = "";
-            let foundCount = 0;
+            try {
+                // Vraag aan GitHub welke bestanden er in de map content/producten staan
+                const response = await fetch(`https://api.github.com/repos/${repo}/contents/content/producten`);
+                
+                if (!response.ok) {
+                    throw new Error("Kon de productmap niet ophalen van GitHub.");
+                }
 
-            for (const filePath of knownFiles) {
-                try {
-                    const response = await fetch(filePath);
-                    if (response.ok) {
-                        const fileText = await response.text();
-                        const parts = fileText.split('---');
-                        
-                        if (parts.length >= 3) {
-                            const data = jsyaml.load(parts[1]);
-                            const productId = filePath.split('/').pop().replace('.md', '');
+                const files = await response.json();
+                productContainer.innerHTML = "";
+                let foundCount = 0;
 
-                            const card = document.createElement('div');
-                            card.className = 'card';
-                            
-                            let imageHtml = data.image ? `<img src="${data.image}" alt="${data.title}">` : '';
-                            
-                            card.innerHTML = `
-                                <div>
-                                    ${imageHtml}
-                                    <h3>${data.title}</h3>
-                                    <p>${data.description || ''}</p>
-                                    <p><strong>€ ${Number(data.price).toFixed(2)}</strong></p>
-                                </div>
-                                <button class="snipcart-add-item"
-                                    data-item-id="${productId}"
-                                    data-item-price="${data.price}"
-                                    data-item-url="/"
-                                    data-item-name="${data.title}"
-                                    data-item-image="${data.image || ''}">
-                                    In winkelmand
-                                </button>
-                            `;
-                            productContainer.appendChild(card);
-                            foundCount++;
+                // Loop door elk bestand dat in de map staat
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        try {
+                            // Haal de inhoud van het markdown-bestand op via de download_url
+                            const fileResponse = await fetch(file.download_url);
+                            if (fileResponse.ok) {
+                                const fileText = await fileResponse.text();
+                                const parts = fileText.split('---');
+                                
+                                if (parts.length >= 3) {
+                                    const data = jsyaml.load(parts[1]);
+                                    const productId = file.name.replace('.md', '');
+
+                                    const card = document.createElement('div');
+                                    card.className = 'card';
+                                    
+                                    let imageHtml = data.image ? `<img src="${data.image}" alt="${data.title}">` : '';
+                                    
+                                    card.innerHTML = `
+                                        <div>
+                                            ${imageHtml}
+                                            <h3>${data.title}</h3>
+                                            <p>${data.description || ''}</p>
+                                            <p><strong>€ ${Number(data.price).toFixed(2)}</strong></p>
+                                        </div>
+                                        <button class="snipcart-add-item"
+                                            data-item-id="${productId}"
+                                            data-item-price="${data.price}"
+                                            data-item-url="/"
+                                            data-item-name="${data.title}"
+                                            data-item-image="${data.image || ''}">
+                                            In winkelmand
+                                        </button>
+                                    `;
+                                    productContainer.appendChild(card);
+                                    foundCount++;
+                                }
+                            }
+                        } catch (err) {
+                            console.error("Fout bij het uitlezen van bestand:", file.name);
                         }
                     }
-                } catch (e) {
-                    console.error("Kon bestand niet laden:", filePath);
                 }
-            }
 
-            if (foundCount === 0) {
-                productContainer.innerHTML = "<p>Nog geen producten gevonden in het CMS.</p>";
+                if (foundCount === 0) {
+                    productContainer.innerHTML = "<p>Nog geen producten gevonden in het CMS.</p>";
+                }
+
+            } catch (e) {
+                console.error("Fout bij verbinden met GitHub API:", e);
+                productContainer.innerHTML = "<p style='color: #a00;'>Kon de producten niet laden.</p>";
             }
         }
 
