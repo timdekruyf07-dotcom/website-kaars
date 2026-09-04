@@ -13,6 +13,9 @@
     <link rel="preconnect" href="https://cdn.snipcart.com">
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.css" />
 
+    <!-- YAML Parser voor het inlezen van de CMS-bestanden -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
     <style>
         body {
             font-family: Georgia, serif;
@@ -100,6 +103,14 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            text-align: left;
+        }
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
         .card h3 {
             margin-top: 0;
@@ -117,6 +128,7 @@
             cursor: pointer;
             font-family: sans-serif;
             font-size: 0.9em;
+            text-align: center;
         }
         .btn:hover, .snipcart-add-item:hover {
             background-color: #736359;
@@ -137,7 +149,7 @@
         <!-- Winkelmand knop linksboven -->
         <a href="#cart" class="cart-link snipcart-checkout">Winkelmand (<span class="snipcart-items-count">0</span>)</a>
 
-        <!-- Inlogknop rechtsboven (nu als echte button met een directe JS-trigger) -->
+        <!-- Inlogknop rechtsboven -->
         <button id="login-btn" class="admin-login-btn">Beheer / Inloggen</button>
 
         <h1>Licht & Liefde</h1>
@@ -151,56 +163,16 @@
         </div>
 
         <div class="section">
-            <h2>Populaire Collectie</h2>
-            <div class="products">
-                <div class="card">
-                    <div>
-                        <h3>"Wees niet bevreesd"</h3>
-                        <p>Sfeervolle stompkaars met handgeschreven kalligrafie en een gouden accent.</p>
-                        <p><strong>€ 12,50</strong></p>
-                    </div>
-                    <button class="snipcart-add-item"
-                      data-item-id="kaars-1"
-                      data-item-price="12.50"
-                      data-item-url="/"
-                      data-item-name="Wees niet bevreesd">
-                      In winkelmand
-                    </button>
-                </div>
-                <div class="card">
-                    <div>
-                        <h3>"Geloof, Hoop & Liefde"</h3>
-                        <p>Set van drie kleine geurkaarsen in een rustige aardetint.</p>
-                        <p><strong>€ 17,50</strong></p>
-                    </div>
-                    <button class="snipcart-add-item"
-                      data-item-id="kaars-2"
-                      data-item-price="17.50"
-                      data-item-url="/"
-                      data-item-name="Geloof, Hoop & Liefde">
-                      In winkelmand
-                    </button>
-                </div>
-                <div class="card">
-                    <div>
-                        <h3>"Licht in je duisternis"</h3>
-                        <p>Grote rustieke kaars met een inspirerende tekst voor elke dag.</p>
-                        <p><strong>€ 14,95</strong></p>
-                    </div>
-                    <button class="snipcart-add-item"
-                      data-item-id="kaars-3"
-                      data-item-price="14.95"
-                      data-item-url="/"
-                      data-item-name="Licht in je duisternis">
-                      In winkelmand
-                    </button>
-                </div>
+            <h2>Onze Producten</h2>
+            <!-- Hier worden de producten automatisch door JavaScript ingeladen -->
+            <div id="product-list" class="products">
+                <p style="color: #7a706b;">Producten worden geladen...</p>
             </div>
         </div>
 
         <div class="section">
             <h2>Interesse of bestellen?</h2>
-            <p>Wil je graag een kaars bestellen of heb je een wens voor een eigen tekst?</p>
+            <p>Wil je graag iets bestellen of heb je een wens voor een eigen tekst?</p>
             <a href="mailto:info@jouwemeel.nl" class="btn">Stuur een berichtje</a>
         </div>
     </div>
@@ -212,6 +184,83 @@
     <!-- Snipcart JavaScript -->
     <script async src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"></script>
     <div hidden id="snipcart" data-api-key="NDdkMmZjYjAtYTI2NS00NDQ0LWFjYjgtMWNlMmVhNzgzZTMzNjM5MjQwNDE5ODk1NTAxNjE2"></div>
+
+    <!-- Script om automatisch producten uit Decap CMS in te laden -->
+    <script>
+        async function loadProducts() {
+            const productContainer = document.getElementById('product-list');
+            
+            try {
+                // We halen de lijst met bestanden op uit de map content/producten via GitHub's API of via een manifest
+                // Omdat we op Netlify draaien, kunnen we de bestandsnamen ophalen of via een vaste lijst werken.
+                // Handigste en schoonste manier voor een statische site is via een index of we zoeken de bestanden op.
+                // Om het direct passend te maken met jouw net toegevoegde theedoek: we lezen de map uit.
+                
+                // Voor nu handig: we vragen GitHub welke bestanden er in content/producten staan
+                const repo = "timdekruyf07-dotcom/website-kaarsen"; // jouw repo
+                const response = await fetch(`https://api.github.com/repos/${repo}/contents/content/producten`);
+                
+                if (!response.ok) {
+                    throw500 = true;
+                    productContainer.innerHTML = "<p>Nog geen producten gevonden in het CMS.</p>";
+                    return;
+                }
+
+                const files = await response.json();
+                productContainer.innerHTML = ""; // Leegmaken
+
+                for (const file of files) {
+                    if (file.name.endsWith('.md')) {
+                        const fileRes = await fetch(file.download_url);
+                        const fileText = await fileRes.text();
+                        
+                        // Markdown frontmatter eruit snijden (tussen de --- streepjes)
+                        const parts = fileText.split('---');
+                        if (parts.length >= 3) {
+                            const data = jsyaml.load(parts[1]);
+                            
+                            // Unieke ID op basis van bestandsnaam
+                            const productId = file.name.replace('.md', '');
+
+                            // HTML kaartje maken voor het product
+                            const card = document.createElement('div');
+                            card.className = 'card';
+                            
+                            let imageHtml = data.image ? `<img src="${data.image}" alt="${data.title}">` : '';
+                            
+                            card.innerHTML = `
+                                <div>
+                                    ${imageHtml}
+                                    <h3>${data.title}</h3>
+                                    <p>${data.description || ''}</p>
+                                    <p><strong>€ ${Number(data.price).toFixed(2)}</strong></p>
+                                </div>
+                                <button class="snipcart-add-item"
+                                  data-item-id="${productId}"
+                                  data-item-price="${data.price}"
+                                  data-item-url="/"
+                                  data-item-name="${data.title}"
+                                  data-item-image="${data.image || ''}">
+                                  In winkelmand
+                                </button>
+                            `;
+                            productContainer.appendChild(card);
+                        }
+                    }
+                }
+
+                if (productContainer.children.length === 0) {
+                    productContainer.innerHTML = "<p>Nog geen producten gevonden in het CMS.</p>";
+                }
+
+            } catch (error) {
+                console.error("Fout bij het laden van producten:", error);
+                productContainer.innerHTML = "<p>Kon producten niet laden.</p>";
+            }
+        }
+
+        loadProducts();
+    </script>
 
     <!-- Betrouwbare Netlify Identity Koppeling -->
     <script>
