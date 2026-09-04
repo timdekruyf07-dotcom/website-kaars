@@ -180,17 +180,16 @@
     <script async src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"></script>
     <div hidden id="snipcart" data-api-key="NDdkMmZjYjAtYTI2NS00NDQ0LWFjYjgtMWNlMmVhNzgzZTMzNjM5MjQwNDE5ODk1NTAxNjE2"></div>
 
-    <!-- Superstabiel productlaadscript -->
+   <!-- Automatisch productlaadscript -->
     <script>
         async function loadProducts() {
             const productContainer = document.getElementById('product-list');
             
-            // Hier vullen we automatisch alle productbestanden in die je aanmaakt via het CMS
-            // Voeg je een nieuw product toe? Dan zet je de bestandsnaam hier eenvoudig bij.
+            // Hier worden al je producten automatisch ingeladen.
+            // Voeg je via Decap CMS een nieuw product toe? Dan zet je de bestandsnaam hieronder simpelweg in het lijstje erbij!
             const productFiles = [
-                'content/producten/theedoek.md'
-                // Als je straks een tweede product hebt, zet je er onder elkaar bijvoorbeeld dit bij:
-                // , 'content/producten/tweede-product.md'
+                'content/producten/theedoek.md',
+                'content/producten/koekje.md' // Voeg hier straks al je nieuwe producten toe
             ];
 
             productContainer.innerHTML = "";
