@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handgemaakte Kaarsen met een Boodschap</title>
+    
+    <!-- Netlify Identity Widget script -->
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Snipcart CSS -->
+    <link rel="preconnect" href="https://app.snipcart.com">
+    <link rel="preconnect" href="https://cdn.snipcart.com">
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.css" />
+
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcfbfa;
+            color: #4a4543;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #f4efe9;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e8e1da;
+            position: relative;
+        }
+        .admin-login-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #8c7b70;
+            color: white;
+            padding: 6px 12px;
+            font-family: sans-serif;
+            font-size: 0.85em;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+        }
+        .admin-login-btn:hover {
+            background-color: #736359;
+        }
+        .cart-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #8c7b70;
+            color: white;
+            padding: 6px 12px;
+            font-family: sans-serif;
+            font-size: 0.85em;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .cart-link:hover {
+            background-color: #736359;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #3b3533;
+        }
+        header p {
+            font-size: 1.1em;
+            color: #7a706b;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .section h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #3b3533;
+        }
+        .products {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            border: 1px solid #e8e1da;
+            padding: 20px;
+            width: 250px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #3b3533;
+        }
+        .btn, .snipcart-add-item {
+            display: inline-block;
+            background-color: #8c7b70;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            border: none;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 0.9em;
+        }
+        .btn:hover, .snipcart-add-item:hover {
+            background-color: #736359;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #f4efe9;
+            color: #7a706b;
+            font-size: 0.9em;
+            border-top: 1px solid #e8e1da;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- Winkelmand knop linksboven -->
+        <a href="#cart" class="cart-link snipcart-checkout">Winkelmand (<span class="snipcart-items-count">0</span>)</a>
+
+        <!-- Inlogknop rechtsboven (nu als echte button met een directe JS-trigger) -->
+        <button id="login-btn" class="admin-login-btn">Beheer / Inloggen</button>
+
+        <h1>Licht & Liefde</h1>
+        <p>Handgemaakte kaarsen met een bemoedigende christelijke tekst</p>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>Welkom</h2>
+            <p>Elke kaars wordt met liefde gemaakt en voorzien van een zorgvuldig gekozen Bijbeltekst of christelijke quote. Perfect als warm cadeau voor een dierbare of om een sfeervol, hoopvol moment in huis te creëren.</p>
+        </div>
+
+        <div class="section">
+            <h2>Populaire Collectie</h2>
+            <div class="products">
+                <div class="card">
+                    <div>
+                        <h3>"Wees niet bevreesd"</h3>
+                        <p>Sfeervolle stompkaars met handgeschreven kalligrafie en een gouden accent.</p>
+                        <p><strong>€ 12,50</strong></p>
+                    </div>
+                    <button class="snipcart-add-item"
+                      data-item-id="kaars-1"
+                      data-item-price="12.50"
+                      data-item-url="/"
+                      data-item-name="Wees niet bevreesd">
+                      In winkelmand
+                    </button>
+                </div>
+                <div class="card">
+                    <div>
+                        <h3>"Geloof, Hoop & Liefde"</h3>
+                        <p>Set van drie kleine geurkaarsen in een rustige aardetint.</p>
+                        <p><strong>€ 17,50</strong></p>
+                    </div>
+                    <button class="snipcart-add-item"
+                      data-item-id="kaars-2"
+                      data-item-price="17.50"
+                      data-item-url="/"
+                      data-item-name="Geloof, Hoop & Liefde">
+                      In winkelmand
+                    </button>
+                </div>
+                <div class="card">
+                    <div>
+                        <h3>"Licht in je duisternis"</h3>
+                        <p>Grote rustieke kaars met een inspirerende tekst voor elke dag.</p>
+                        <p><strong>€ 14,95</strong></p>
+                    </div>
+                    <button class="snipcart-add-item"
+                      data-item-id="kaars-3"
+                      data-item-price="14.95"
+                      data-item-url="/"
+                      data-item-name="Licht in je duisternis">
+                      In winkelmand
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Interesse of bestellen?</h2>
+            <p>Wil je graag een kaars bestellen of heb je een wens voor een eigen tekst?</p>
+            <a href="mailto:info@jouwemeel.nl" class="btn">Stuur een berichtje</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Licht & Liefde - Handgemaakt met zorg.</p>
+    </footer>
+
+    <!-- Snipcart JavaScript -->
+    <script async src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"></script>
+    <div hidden id="snipcart" data-api-key="NDdkMmZjYjAtYTI2NS00NDQ0LWFjYjgtMWNlMmVhNzgzZTMzNjM5MjQwNDE5ODk1NTAxNjE2"></div>
+
+    <!-- Betrouwbare Netlify Identity Koppeling -->
+    <script>
+      document.getElementById('login-btn').addEventListener('click', function() {
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.open();
+        } else {
+          alert("Netlify Identity is nog niet geladen. Vernieuw de pagina en probeer het nog eens.");
+        }
+      });
+
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+
+</body>
+</html>
