@@ -1,15 +1,7 @@
-<!doctype html>
-<html lang="nl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beheer - Licht & Liefde</title>
-</head>
-<body>
-  <!-- Decap CMS Script -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</body>
-</html>
+backend:
+  name: github
+  repo: timdekruyf07-dotcom/website-kaars
+  branch: main
 
 media_folder: "images"
 public_folder: "/images"
@@ -19,9 +11,8 @@ collections:
     label: "Producten"
     folder: "content/producten"
     create: true
-    slug: "{{slug}}"
     fields:
-      - {label: "Naam", name: "title", widget: "string"}
+      - {label: "Titel", name: "title", widget: "string"}
       - {label: "Prijs", name: "price", widget: "number"}
-      - {label: "Omschrijving", name: "description", widget: "text"}
+      - {label: "Beschrijving", name: "description", widget: "text"}
       - {label: "Afbeelding", name: "image", widget: "image"}
