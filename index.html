@@ -234,7 +234,8 @@
                                     const card = document.createElement('div');
                                     card.className = 'card';
                                     
-                                    let imageHtml = data.image ? `<img src="${data.image}" alt="${data.title}">` : '';
+                                    let imagePath = data.image ? data.image.replace(/^\//, '') : '';
+let imageHtml = imagePath ? `<img src="${imagePath}" alt="${data.title}">` : '';
                                     
                                     card.innerHTML = `
                                         <div>
