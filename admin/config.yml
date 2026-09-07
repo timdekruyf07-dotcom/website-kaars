@@ -2,6 +2,8 @@ backend:
   name: github
   repo: timdekruyf07-dotcom/website-kaars
   branch: main
+  base_url: https://github.com
+  auth_endpoint: login/oauth/authorize
 
 media_folder: "images"
 public_folder: "/images"
