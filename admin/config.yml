@@ -2,8 +2,8 @@ backend:
   name: github
   repo: timdekruyf07-dotcom/website-kaars
   branch: main
-  base_url: https://decap-cms-oauth.netlify.app
-  auth_endpoint: auth
+  auth_type: implicit
+  client_id: Ov23ctS2qzGMaPsJh1BA
 
 media_folder: "images"
 public_folder: "/images"
