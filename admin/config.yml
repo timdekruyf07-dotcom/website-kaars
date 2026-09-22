@@ -3,7 +3,6 @@ backend:
   repo: timdekruyf07-dotcom/website-kaars
   branch: main
   auth_type: implicit
-  app_id: ''
 
 media_folder: "images"
 public_folder: "/images"
