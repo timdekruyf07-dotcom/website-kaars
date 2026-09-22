@@ -17,6 +17,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
     <style>
+        /* Baloney Lettertype invoegen */
+        @font-face {
+            font-family: 'Baloney';
+            src: url('fonts/Baloney.ttf') format('truetype');
+        }
+
         body {
             font-family: Georgia, serif;
             margin: 0;
@@ -91,10 +97,12 @@
             background-color: #736359;
         }
         header h1 {
-            font-size: 3em;
+            font-family: 'Baloney', Georgia, serif;
+            font-size: 3.5em;
             margin-bottom: 10px;
             color: #ffffff;
             text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
         }
         header p {
             font-size: 1.2em;
@@ -111,9 +119,11 @@
             text-align: center;
         }
         .section h2 {
-            font-size: 1.8em;
+            font-family: 'Baloney', Georgia, serif;
+            font-size: 2.2em;
             margin-bottom: 20px;
             color: #3b3533;
+            letter-spacing: 1px;
         }
         .products {
             display: flex;
