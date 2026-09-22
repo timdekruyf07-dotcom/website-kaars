@@ -3,6 +3,7 @@ backend:
   repo: timdekruyf07-dotcom/website-kaars
   branch: main
   auth_type: implicit
+  base_url: ''
   client_id: Ov23ctS2qzGMaPsJh1BA
 
 media_folder: "images"
