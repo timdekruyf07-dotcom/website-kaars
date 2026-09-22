@@ -60,11 +60,12 @@
         }
         .admin-login-btn:hover {
             background-color: #736359;
+            color: white;
         }
         .refresh-btn {
             position: absolute;
             top: 20px;
-            right: 155px;
+            right: 105px;
             background-color: #5c7265;
             color: white;
             padding: 8px 14px;
@@ -74,7 +75,6 @@
             border-radius: 4px;
             cursor: pointer;
             border: none;
-            display: none; /* Verschijnt pas als je ingelogd bent */
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .refresh-btn:hover {
@@ -185,9 +185,11 @@
 
     <header>
         <a href="#cart" class="cart-link snipcart-checkout">Winkelmand (<span class="snipcart-items-count">0</span>)</a>
-        <!-- De vernieuw-knop, alleen zichtbaar na inloggen -->
-        <button id="refresh-products-btn" class="refresh-btn">🔄 Ververs producten</button>
-        <button id="login-btn" class="admin-login-btn">Beheer / Inloggen</button>
+        <!-- De ververs-knop -->
+        <button id="refresh-products-btn" class="refresh-btn">🔄 Ververs</button>
+        <!-- Directe link naar de beheerpagina -->
+        <a href="/admin/" class="admin-login-btn">Beheer</a>
+        
         <h1>Licht & Liefde</h1>
         <p>Handgemaakte kaarsen met een bemoedigende christelijke tekst</p>
     </header>
@@ -289,7 +291,7 @@
 
             } catch (e) {
                 console.error("API limiet of verbindingsfout:", e);
-                productContainer.innerHTML = "<p style='color: #a00;'>Kon de producten niet laden. Klik op 'Ververs producten' als je bent ingelogd.</p>";
+                productContainer.innerHTML = "<p style='color: #a00;'>Kon de producten niet laden. Klik op 'Ververs' als je wijzigingen hebt gedaan.</p>";
             }
         }
 
@@ -300,45 +302,6 @@
         document.getElementById('refresh-products-btn').addEventListener('click', function() {
             loadProducts();
         });
-    </script>
-
-    <!-- Netlify Identity Koppeling & Beheer knop logica -->
-    <script>
-      const loginBtn = document.getElementById('login-btn');
-      const refreshBtn = document.getElementById('refresh-products-btn');
-
-      loginBtn.addEventListener('click', function() {
-        if (window.netlifyIdentity) {
-          const user = window.netlifyIdentity.currentUser();
-          if (user) {
-            window.netlifyIdentity.logout();
-          } else {
-            window.netlifyIdentity.open();
-          }
-        }
-      });
-
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (user) {
-            loginBtn.innerText = "Uitloggen";
-            refreshBtn.style.display = "inline-block"; // Toon de ververs-knop als je ingelogd bent!
-          } else {
-            loginBtn.innerText = "Beheer / Inloggen";
-            refreshBtn.style.display = "none";
-          }
-        });
-
-        window.netlifyIdentity.on("login", user => {
-          document.location.href = "/admin/"; // Of direct naar de admin wanneer je inlogt
-        });
-
-        window.netlifyIdentity.on("logout", () => {
-          loginBtn.innerText = "Beheer / Inloggen";
-          refreshBtn.style.display = "none";
-          location.reload();
-        });
-      }
     </script>
 
 </body>
