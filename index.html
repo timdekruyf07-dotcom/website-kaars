@@ -14,6 +14,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
     <style>
+        /* Zorg dat de pagina soepel naar een sectie scrollt */
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* Marseille Lettertype invoegen */
         @font-face {
             font-family: 'Marseille';
@@ -29,12 +34,11 @@
             line-height: 1.6;
         }
         header {
-            /* Hero Banner achtergrond met een subtiele donkere overlay voor leesbaarheid */
             background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('images/hero-banner.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding: 100px 20px;
+            padding: 100px 20px 60px 20px;
             text-align: center;
             position: relative;
             color: #ffffff;
@@ -63,7 +67,7 @@
             position: absolute;
             top: 20px;
             right: 105px;
-            background-color: #8c7b70; /* Aangepast naar dezelfde hoofdkleur */
+            background-color: #8c7b70;
             color: white;
             padding: 8px 14px;
             font-family: sans-serif;
@@ -75,7 +79,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .refresh-btn:hover {
-            background-color: #736359; /* Aangepast naar dezelfde hover-kleur */
+            background-color: #736359;
         }
         .cart-link {
             position: absolute;
@@ -105,15 +109,42 @@
             font-size: 1.2em;
             color: #f2eeea;
             text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
         }
+        
+        /* Stijl voor de navigatiemenu knoppen in de header */
+        .main-nav {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 18px;
+            text-decoration: none;
+            border-radius: 20px;
+            font-family: sans-serif;
+            font-size: 0.9em;
+            backdrop-filter: blur(5px);
+            transition: background-color 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .main-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
         .container {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             text-align: center;
+            scroll-margin-top: 40px; /* Zorgt dat de kop niet wegvalt onder de rand bij het scrollen */
         }
         .section h2 {
             font-family: 'Marseille', Georgia, serif;
@@ -182,29 +213,46 @@
 
     <header>
         <a href="#cart" class="cart-link snipcart-checkout">Winkelmand (<span class="snipcart-items-count">0</span>)</a>
-        <!-- De ververs-knop -->
         <button id="refresh-products-btn" class="refresh-btn">🔄 Ververs</button>
-        <!-- Directe link naar de admin-pagina op GitHub Pages -->
         <a href="https://timdekruyf07-dotcom.github.io/website-kaars/admin/" class="admin-login-btn">Beheer</a>
         
         <h1>Licht & Liefde</h1>
         <p>Handgemaakte kaarsen met een bemoedigende christelijke tekst</p>
+
+        <!-- Navigatiemenu -->
+        <nav class="main-nav">
+            <a href="#">Home</a>
+            <a href="#producten">Producten</a>
+            <a href="#over-ons">Over ons</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
 
     <div class="container">
-        <div class="section">
+        <!-- Welkom sectie -->
+        <div class="section" id="welkom">
             <h2>Welkom</h2>
             <p>Elke kaars wordt met liefde gemaakt en voorzien van een zorgvuldig gekozen Bijbeltekst of christelijke quote. Perfect als warm cadeau voor een dierbare of om een sfeervol, hoopvol moment in huis te creëren.</p>
         </div>
 
-        <div class="section">
+        <!-- Producten sectie -->
+        <div class="section" id="producten">
             <h2>Onze Producten</h2>
             <div id="product-list" class="products">
                 <p style="color: #7a706b;">Producten worden geladen...</p>
             </div>
         </div>
 
-        <div class="section">
+        <!-- Over Ons sectie -->
+        <div class="section" id="over-ons">
+            <h2>Over ons</h2>
+            <p style="max-width: 600px; margin: 0 auto; text-align: left;">
+                Welkom bij <strong>Licht & Liefde</strong>! Wij geloven dat een brandende kaars niet alleen gezelligheid brengt, maar ook warmte en hoop in huis kan verspreiden. Onze kaarsen worden met de hand gemaakt en voorzien van zorgvuldig geselecteerde christelijke teksten en bemoedigende quotes. Of je nu op zoek bent naar een dierbaar cadeau voor iemand die het nodig heeft, of gewoon een sfeervol moment voor jezelf wilt creëren: met liefde gemaakt, speciaal voor jou.
+            </p>
+        </div>
+
+        <!-- Contact sectie -->
+        <div class="section" id="contact">
             <h2>Interesse of bestellen?</h2>
             <p>Wil je graag iets bestellen of heb je een wens voor een eigen tekst?</p>
             <a href="mailto:info@jouwemeel.nl" class="btn">Stuur een berichtje</a>
@@ -295,7 +343,7 @@
         // Laad producten direct bij openen
         loadProducts();
 
-        // Koppel de ververs-knop
+        // Categorie-filtering of ververs-knop
         document.getElementById('refresh-products-btn').addEventListener('click', function() {
             loadProducts();
         });
