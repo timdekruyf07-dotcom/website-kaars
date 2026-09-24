@@ -10,21 +10,11 @@
     <link rel="preconnect" href="https://cdn.snipcart.com">
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.css" />
 
-    <!-- YAML Parser -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-
     <style>
-        /* Zorg dat de pagina soepel naar een sectie scrollt */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Marseille Lettertype invoegen */
         @font-face {
             font-family: 'Marseille';
             src: url('fonts/Marseille.ttf') format('truetype');
         }
-
         body {
             font-family: Georgia, serif;
             margin: 0;
@@ -37,14 +27,13 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('images/hero-banner.jpg');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
             padding: 100px 20px 60px 20px;
             text-align: center;
             position: relative;
             color: #ffffff;
             border-bottom: 1px solid #e8e1da;
         }
-        .admin-login-btn {
+        .admin-btn {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -55,32 +44,9 @@
             font-size: 0.85em;
             text-decoration: none;
             border-radius: 4px;
-            cursor: pointer;
-            border: none;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .admin-login-btn:hover {
-            background-color: #736359;
-            color: white;
-        }
-        .refresh-btn {
-            position: absolute;
-            top: 20px;
-            right: 105px;
-            background-color: #8c7b70;
-            color: white;
-            padding: 8px 14px;
-            font-family: sans-serif;
-            font-size: 0.85em;
-            text-decoration: none;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .refresh-btn:hover {
-            background-color: #736359;
-        }
+        .admin-btn:hover { background-color: #736359; color: white; }
         .cart-link {
             position: absolute;
             top: 20px;
@@ -94,16 +60,12 @@
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .cart-link:hover {
-            background-color: #736359;
-        }
+        .cart-link:hover { background-color: #736359; }
         header h1 {
             font-family: 'Marseille', Georgia, serif;
             font-size: 3.5em;
             margin-bottom: 10px;
-            color: #ffffff;
             text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-            letter-spacing: 1px;
         }
         header p {
             font-size: 1.2em;
@@ -111,8 +73,6 @@
             text-shadow: 0 1px 4px rgba(0,0,0,0.4);
             margin-bottom: 30px;
         }
-        
-        /* Stijl voor de navigatiemenu knoppen in de header */
         .main-nav {
             margin-top: 20px;
             display: flex;
@@ -129,76 +89,35 @@
             font-family: sans-serif;
             font-size: 0.9em;
             backdrop-filter: blur(5px);
-            transition: background-color 0.2s;
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
-        .main-nav a:hover {
+        .main-nav a:hover, .main-nav a.active {
             background-color: rgba(255, 255, 255, 0.4);
         }
-
         .container {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
-        }
-        .section {
-            margin-bottom: 60px;
             text-align: center;
-            scroll-margin-top: 40px; /* Zorgt dat de kop niet wegvalt onder de rand bij het scrollen */
         }
         .section h2 {
             font-family: 'Marseille', Georgia, serif;
             font-size: 2.2em;
             margin-bottom: 20px;
             color: #3b3533;
-            letter-spacing: 1px;
         }
-        .products {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .card {
-            background: white;
-            border: 1px solid #e8e1da;
-            padding: 20px;
-            width: 250px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-align: left;
-        }
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .card h3 {
-            margin-top: 0;
-            color: #3b3533;
-        }
-        .btn, .snipcart-add-item {
+        .btn {
             display: inline-block;
-            background-color: #8c7b70 !important;
-            color: white !important;
+            background-color: #8c7b70;
+            color: white;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 4px;
             margin-top: 15px;
-            border: none;
-            cursor: pointer;
             font-family: sans-serif;
             font-size: 0.9em;
-            text-align: center;
         }
-        .btn:hover, .snipcart-add-item:hover {
-            background-color: #736359 !important;
-        }
+        .btn:hover { background-color: #736359; }
         footer {
             text-align: center;
             padding: 30px;
@@ -206,6 +125,7 @@
             color: #7a706b;
             font-size: 0.9em;
             border-top: 1px solid #e8e1da;
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -213,141 +133,30 @@
 
     <header>
         <a href="#cart" class="cart-link snipcart-checkout">Winkelmand (<span class="snipcart-items-count">0</span>)</a>
-        <button id="refresh-products-btn" class="refresh-btn">🔄 Ververs</button>
-        <a href="https://timdekruyf07-dotcom.github.io/website-kaars/admin/" class="admin-login-btn">Beheer</a>
+        <a href="https://timdekruyf07-dotcom.github.io/website-kaars/admin/" class="admin-btn">Beheer</a>
         
         <h1>Licht & Liefde</h1>
         <p>Handgemaakte kaarsen met een bemoedigende christelijke tekst</p>
 
-        <!-- Navigatiemenu -->
         <nav class="main-nav">
-            <a href="#">Home</a>
-            <a href="#producten">Producten</a>
-            <a href="#over-ons">Over ons</a>
-            <a href="#contact">Contact</a>
+            <a href="index.html" class="active">Home</a>
+            <a href="producten.html">Producten</a>
+            <a href="over-ons.html">Over ons</a>
+            <a href="contact.html">Contact</a>
         </nav>
     </header>
 
     <div class="container">
-        <!-- Welkom sectie -->
-        <div class="section" id="welkom">
-            <h2>Welkom</h2>
-            <p>Elke kaars wordt met liefde gemaakt en voorzien van een zorgvuldig gekozen Bijbeltekst of christelijke quote. Perfect als warm cadeau voor een dierbare of om een sfeervol, hoopvol moment in huis te creëren.</p>
-        </div>
-
-        <!-- Producten sectie -->
-        <div class="section" id="producten">
-            <h2>Onze Producten</h2>
-            <div id="product-list" class="products">
-                <p style="color: #7a706b;">Producten worden geladen...</p>
-            </div>
-        </div>
-
-        <!-- Over Ons sectie -->
-        <div class="section" id="over-ons">
-            <h2>Over ons</h2>
-            <p style="max-width: 600px; margin: 0 auto; text-align: left;">
-                Welkom bij <strong>Licht & Liefde</strong>! Wij geloven dat een brandende kaars niet alleen gezelligheid brengt, maar ook warmte en hoop in huis kan verspreiden. Onze kaarsen worden met de hand gemaakt en voorzien van zorgvuldig geselecteerde christelijke teksten en bemoedigende quotes. Of je nu op zoek bent naar een dierbaar cadeau voor iemand die het nodig heeft, of gewoon een sfeervol moment voor jezelf wilt creëren: met liefde gemaakt, speciaal voor jou.
-            </p>
-        </div>
-
-        <!-- Contact sectie -->
-        <div class="section" id="contact">
-            <h2>Interesse of bestellen?</h2>
-            <p>Wil je graag iets bestellen of heb je een wens voor een eigen tekst?</p>
-            <a href="mailto:info@jouwemeel.nl" class="btn">Stuur een berichtje</a>
-        </div>
+        <h2>Welkom bij Licht & Liefde</h2>
+        <p>Elke kaars wordt met liefde gemaakt en voorzien van een zorgvuldig gekozen Bijbeltekst of christelijke quote. Perfect als warm cadeau voor een dierbare of om een sfeervol, hoopvol moment in huis te creëren.</p>
+        <a href="producten.html" class="btn">Bekijk onze producten</a>
     </div>
 
     <footer>
         <p>&copy; 2026 Licht & Liefde - Handgemaakt met zorg.</p>
     </footer>
 
-    <!-- Snipcart JavaScript -->
     <script async src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"></script>
     <div hidden id="snipcart" data-api-key="NDdkMmZjYjAtYTI2NS00NDQ0LWFjYjgtMWNlMmVhNzgzZTMzNjM5MjQwNDE5ODk1NTAxNjE2"></div>
-
-    <!-- Product laadscript met API-functionaliteit -->
-    <script>
-        async function loadProducts() {
-            const productContainer = document.getElementById('product-list');
-            const repo = "timdekruyf07-dotcom/website-kaars";
-            
-            productContainer.innerHTML = "<p style='color: #7a706b;'>Producten worden geladen...</p>";
-
-            try {
-                const response = await fetch(`https://api.github.com/repos/${repo}/contents/content/producten`);
-                
-                if (!response.ok) {
-                    throw new Error("Kon de productmap niet ophalen.");
-                }
-
-                const files = await response.json();
-                productContainer.innerHTML = "";
-                let foundCount = 0;
-
-                for (const file of files) {
-                    if (file.name.endsWith('.md')) {
-                        try {
-                            const fileResponse = await fetch(file.download_url);
-                            if (fileResponse.ok) {
-                                const fileText = await fileResponse.text();
-                                const parts = fileText.split('---');
-                                
-                                if (parts.length >= 3) {
-                                    const data = jsyaml.load(parts[1]);
-                                    const productId = file.name.replace('.md', '');
-
-                                    const card = document.createElement('div');
-                                    card.className = 'card';
-                                    
-                                    let imagePath = data.image ? data.image.replace(/^\//, '') : '';
-                                    let imageHtml = imagePath ? `<img src="${imagePath}" alt="${data.title}">` : '';
-                                    
-                                    card.innerHTML = `
-                                        <div>
-                                            ${imageHtml}
-                                            <h3>${data.title}</h3>
-                                            <p>${data.description || ''}</p>
-                                            <p><strong>€ ${Number(data.price).toFixed(2)}</strong></p>
-                                        </div>
-                                        <button class="snipcart-add-item"
-                                            data-item-id="${productId}"
-                                            data-item-price="${data.price}"
-                                            data-item-url="/"
-                                            data-item-name="${data.title}"
-                                            data-item-image="${data.image || ''}">
-                                            In winkelmand
-                                        </button>
-                                    `;
-                                    productContainer.appendChild(card);
-                                    foundCount++;
-                                }
-                            }
-                        } catch (err) {
-                            console.error("Fout bij inlezen bestand:", file.name);
-                        }
-                    }
-                }
-
-                if (foundCount === 0) {
-                    productContainer.innerHTML = "<p>Nog geen producten gevonden.</p>";
-                }
-
-            } catch (e) {
-                console.error("API limiet of verbindingsfout:", e);
-                productContainer.innerHTML = "<p style='color: #a00;'>Kon de producten niet laden. Klik op 'Ververs' als je wijzigingen hebt gedaan.</p>";
-            }
-        }
-
-        // Laad producten direct bij openen
-        loadProducts();
-
-        // Categorie-filtering of ververs-knop
-        document.getElementById('refresh-products-btn').addEventListener('click', function() {
-            loadProducts();
-        });
-    </script>
-
 </body>
 </html>
